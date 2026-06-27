@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Light mode (default) ── */
+:root, [data-theme="light"] {
+  --bg-base:       #f5f1eb;
+  --bg-surface:    #ede8e0;
+  --bg-elevated:   #ffffff;
+  --bg-hover:      #e4ddd3;
+  --bg-node:       #ffffff;
+  --bg-input:      #f9f6f1;
+
+  --border:        #d8cfc4;
+  --border-subtle: #e5dfd6;
+
+  --text-primary:   #1a1612;
+  --text-secondary: #6b6560;
+  --text-muted:     #9e9892;
+  --text-placeholder: #b8b2aa;
+
+  --accent:        #c96442;
+  --accent-hover:  #b05538;
+  --accent-glow:   rgba(201,100,66,0.15);
+  --accent-soft:   #fdf0ea;
+
+  --green:         #2d6a4f;
+  --green-bg:      #edf7f1;
+  --green-border:  #b7dfca;
+  --red:           #b03a2e;
+  --red-bg:        #fdf0ef;
+  --red-border:    #f5c6c2;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 14px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.05);
+
+  --edge-color: #c4bdb4;
+  --dot-color:  #c4bdb4;
+  --minimap-mask: rgba(245,241,235,0.75);
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] {
+  --bg-base:       #0f0e0d;
+  --bg-surface:    #181614;
+  --bg-elevated:   #211f1c;
+  --bg-hover:      #2a2724;
+  --bg-node:       #1c1a17;
+  --bg-input:      #141210;
+
+  --border:        #3a3530;
+  --border-subtle: #2c2924;
+
+  --text-primary:   #ede8e0;
+  --text-secondary: #9e9892;
+  --text-muted:     #6b6560;
+  --text-placeholder: #4a4540;
+
+  --accent:        #d4714e;
+  --accent-hover:  #c96442;
+  --accent-glow:   rgba(212,113,78,0.18);
+  --accent-soft:   #2a1a12;
+
+  --green:         #4ade80;
+  --green-bg:      #0d2b1a;
+  --green-border:  #1a4a2e;
+  --red:           #f87171;
+  --red-bg:        #2b0d0d;
+  --red-border:    #4a1515;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md:  0 4px 14px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.2);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+
+  --edge-color: #4a4540;
+  --dot-color:  #4a4540;
+  --minimap-mask: rgba(15,14,13,0.75);
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 13px;
+}
+
+/* ── ReactFlow ── */
+.react-flow__renderer { background: var(--bg-base); }
+.react-flow__background { opacity: 0.7; }
+.react-flow__background pattern circle { fill: var(--dot-color); }
+
+.react-flow__controls {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+.react-flow__controls-button {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  width: 28px !important; height: 28px !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+.react-flow__controls-button:last-child { border-bottom: none !important; }
+.react-flow__controls-button:hover {
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+.react-flow__controls-button svg { fill: currentColor !important; }
+
+.react-flow__minimap {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+.react-flow__minimap-mask { fill: var(--minimap-mask) !important; }
+.react-flow__minimap-node { fill: var(--border) !important; }
+
+.react-flow__edge-path { stroke: var(--edge-color) !important; stroke-width: 1.5px !important; }
+.react-flow__edge.selected .react-flow__edge-path { stroke: var(--accent) !important; }
+.react-flow__connection-path { stroke: var(--accent) !important; stroke-width: 1.5px !important; }
+
+.react-flow__handle { transition: transform 0.1s, box-shadow 0.1s !important; }
+.react-flow__handle:hover {
+  transform: scale(1.4) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow) !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Focus ── */
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent-glow) !important;
+}
+
+/* Chat message box: the outer wrapper already shows the focus border/glow,
+   so the inner textarea itself must stay fully borderless even when focused. */
+textarea.chat-input:focus-visible,
+textarea.chat-input:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ── Range input ── */
+input[type="range"] { cursor: pointer; }
+
+/* ── Select option (browser native) ── */
+select option {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.nodrag input, .nodrag select, .nodrag textarea { cursor: text; }
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
