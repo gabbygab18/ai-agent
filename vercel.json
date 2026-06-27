@@ -3,7 +3,8 @@
     "frontend": {
       "root": "frontend",
       "routePrefix": "/",
-      "framework": "create-react-app"
+      "framework": "create-react-app",
+      "buildCommand": "npx react-scripts build"
     },
     "backend": {
       "root": "backend",
