@@ -10,7 +10,11 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Allow requests from the React dev server
+# Allow requests from the React dev server, plus any Vercel deployment
+# (production + preview deploys both use *.vercel.app subdomains with
+# unpredictable hashes, so we match them with a regex instead of listing
+# every URL by hand). Add a custom domain to allow_origins below if you
+# attach one in Vercel's project settings.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -19,6 +23,7 @@ app.add_middleware(
         "http://localhost:3001",
         "http://127.0.0.1:3001",
     ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )

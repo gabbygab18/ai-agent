@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { Play, X, CheckCircle, XCircle, GitBranch, Share2, Zap, KeyRound, ChevronDown, ChevronUp } from 'lucide-react';
+import { apiUrl, API_BASE_URL } from './api';
 
 const selector = (s) => ({ nodes: s.nodes, edges: s.edges });
 
@@ -304,7 +305,7 @@ export const SubmitButton = () => {
   const handleSubmit = async () => {
     setLoading(true); setResult(null); setError(null);
     try {
-      const res = await fetch('http://localhost:8000/pipelines/parse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nodes, edges }) });
+      const res = await fetch(apiUrl('/pipelines/parse'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nodes, edges }) });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       setResult(await res.json());
     } catch (err) { setError(`Could not reach backend.\n\n${err.message}`); }
@@ -316,11 +317,11 @@ export const SubmitButton = () => {
     const controller = new AbortController();
     const tid = setTimeout(() => controller.abort(), 75000);
     try {
-      const res = await fetch('http://localhost:8000/pipelines/run', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nodes, edges, api_key: apiKey || null }), signal: controller.signal });
+      const res = await fetch(apiUrl('/pipelines/run'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nodes, edges, api_key: apiKey || null }), signal: controller.signal });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       setRunData(await res.json());
     } catch (err) {
-      setRunError(err.name === 'AbortError' ? 'Request timed out after 75s. Check that the backend is running on http://localhost:8000.' : `Could not reach backend.\n\n${err.message}`);
+      setRunError(err.name === 'AbortError' ? 'Request timed out after 75s. Check that the backend is reachable.' : `Could not reach backend at ${API_BASE_URL}.\n\n${err.message}`);
     } finally { clearTimeout(tid); setRunLoading(false); }
   };
 

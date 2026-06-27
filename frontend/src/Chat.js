@@ -3,6 +3,7 @@ import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { Send, User, Loader, AlertCircle, Zap, Key } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { apiUrl, API_BASE_URL } from './api';
 
 const selector = (s) => ({ nodes: s.nodes, edges: s.edges });
 
@@ -85,7 +86,7 @@ export const Chat = () => {
       const history = messages
         .filter(m => !m.isError && m.id !== 0)
         .map(m => ({ role: m.role, content: m.content }));
-      const res = await fetch('http://localhost:8000/pipelines/run', {
+      const res = await fetch(apiUrl('/pipelines/run'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nodes: runtimeNodes, edges, api_key: key || null, history }),
@@ -129,7 +130,7 @@ export const Chat = () => {
       }]);
     } catch (err) {
       const msg = err.message?.includes('fetch') || err.message?.includes('Failed')
-        ? 'Could not reach the backend. Make sure `uvicorn main:app --reload` is running.'
+        ? `Could not reach the backend at ${API_BASE_URL}. ${API_BASE_URL.includes('localhost') ? 'Make sure `uvicorn main:app --reload` is running.' : 'Check that the backend service is deployed and REACT_APP_API_BASE_URL is set correctly.'}`
         : err.message;
       setError(msg);
       setMessages(prev => [...prev, { role: 'assistant', content: msg, id: msgId.current++, isError: true }]);
